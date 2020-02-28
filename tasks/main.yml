@@ -1,5 +1,12 @@
 ---
 
+- name: ensure systemd-networkd configuration directory
+  file:
+    path: /etc/systemd/network
+    owner: root
+    group: root
+    mode: 0755
+
 - import_tasks: profiles.yml
 
 - name: enable systemd-networkd
