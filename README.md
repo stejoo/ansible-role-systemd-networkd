@@ -7,20 +7,20 @@ Role Variables
 --------------
 
 ```yaml
-# link profiles
+# systemd.link profiles
 systemd_networkd_link: {}
 
-# netdev profiles
+# systemd.netdev profiles
 systemd_networkd_netdev: {}
 
-# network profiles
+# systemd.network profiles
 systemd_networkd_network: {}
 
-# does the role have to restart systemd-networkd to apply the new profiles ?
+# may the role restart systemd-networkd to apply the new profiles?
 systemd_networkd_apply_config: false
 
-# enable or not systemd_resolved
-systemd_networkd_enable_resolved: true
+# enable systemd_resolved?
+systemd_networkd_enable_resolved: yes
 ```
 
 Dependencies
@@ -34,6 +34,7 @@ Example Playbook
 1) Configure a network profile
 
 ```yaml
+systemd_networkd_enable_resolved: yes
 systemd_networkd_network:
   eth0:
     - Match:
@@ -53,16 +54,19 @@ systemd_networkd_network:
       - Gateway: "2001:db8::1"
 ```
 
-It will create a `eth0.network` profile in `/etc/systemd/network/`, and enable
+This will create a `eth0.network` profile in `/etc/systemd/network/`, and enable
 `systemd-networkd` and `systemd-resolved`.
 
-Every key under `systemd_networkd_*` corresponds to the profile name to create
-(`.network` in `systemd_networkd_network`, `.link` in systemd_networkd_link,
-etc…). Then every key under the profile name is a section documented in
-systemd-networkd, which contains the couples of `option: value` for your
-profile. Each couple is then converted to the format `option=value`.
+Variables `systemd_networkd_{link,netdev,network}` correspond to a
+ profile type to create (`systemd_networkd_network` to a `.network` type,
+ `systemd_networkd_link` to a `.link` type, `systemd_networkd_netdev` to a
+ `.netdev` type). Every key under the profile type defines the filename of the
+type. This key contains a list, of which each item is a key corresponding to a
+section as documented in `systemd.network`, `systemd.link` or `systemd.netdev`.
+And this key in turn contains a list of `key: value` pairs matching the
+ `Key=value` pairs documented for this profile type.
 
-2) Configure a bonding interface
+2) Configure a bonded interface
 
 ```yaml
 systemd_networkd_netdev:
@@ -83,11 +87,11 @@ systemd_networkd_network:
       - Bond: "bond0"
 ```
 
-What will create an LACP bond interface `bond0`, containing all interfaces
-starting by `eth`.
+This will create a LACP bond interface `bond0`, combining all interfaces
+starting with `eth`.
 
 License
 -------
 
-Tool under the BSD license. Do not hesitate to report bugs, ask me some
-questions or do some pull request if you want to!
+Role is written under the BSD license. Do not hesitate to report bugs, ask me
+ some questions or do some pull request if you want to!
