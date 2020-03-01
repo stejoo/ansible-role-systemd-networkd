@@ -1,10 +1,9 @@
 ---
 
-- name: start and enable systemd-resolved service
+- name: Configure systemd-resolved service
   service:
     name: systemd-resolved
-    enabled: yes
-    state: started
-  when: systemd_networkd_enable_resolved
+    state: "{{ 'started' if systemd_networkd_enable_resolved else omit }}"
+    enabled: "{{ systemd_networkd_enable_resolved }}"
 
 # vim: set ts=2 sw=2:

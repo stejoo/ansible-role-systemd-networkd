@@ -7,19 +7,25 @@ Role Variables
 --------------
 
 ```yaml
-# systemd.link profiles
+# systemd.link configuration file(s)
 systemd_networkd_link: {}
 
-# systemd.netdev profiles
+# systemd.netdev configuration files(s)
 systemd_networkd_netdev: {}
 
-# systemd.network profiles
+# systemd.network configuration files(s)
 systemd_networkd_network: {}
 
-# may the role restart systemd-networkd to apply the new profiles?
-systemd_networkd_apply_config: false
+# Apply configuration by (re)starting systemd-networkd immediately?
+# default: no
+#   So systemd-networkd configures the network config on next reboot.
+#   Can prevent a misconfigured network locking you out unexpectedly.
+systemd_networkd_apply_config: no
 
-# enable systemd_resolved?
+# Enable systemd-networkd on boot?
+systemd_networkd_enable: yes
+
+# Enable systemd-resolved for DNS queries?
 systemd_networkd_enable_resolved: yes
 ```
 

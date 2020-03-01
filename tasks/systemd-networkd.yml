@@ -37,10 +37,11 @@
   loop: "{{ systemd_networkd_network | dict2items }}"
   notify: Restart systemd-networkd
 
-- name: Enable systemd-networkd service
+- name: Configure systemd-networkd service
   service:
     name: systemd-networkd
-    enabled: yes
+    state: "{{ 'started' if systemd_networkd_apply_config else omit }}"
+    enabled: "{{ systemd_networkd_enable }}"
   when: systemd_networkd_network or systemd_networkd_link or systemd_networkd_netdev
 
 # vim: set ts=2 sw=2:
