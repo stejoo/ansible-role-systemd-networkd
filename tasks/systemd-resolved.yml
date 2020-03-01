@@ -1,5 +1,13 @@
 ---
 
+- name: Manage /etc/resolv.conf
+  file:
+    dest: /etc/resolv.conf
+    src: "{{ systemd_resolved_resolv_file }}"
+    state: link
+    force: yes
+  when: systemd_networkd_enable_resolved
+
 - name: Configure systemd-resolved service
   service:
     name: systemd-resolved

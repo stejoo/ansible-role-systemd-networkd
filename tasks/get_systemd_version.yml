@@ -1,0 +1,13 @@
+---
+
+- name: Ask systemctl for version information
+  command: systemctl --version
+  register: systemctl_version
+  changed_when: false
+  check_mode: no
+
+- name: Extract systemd version number from version information
+  set_fact:
+    systemd_version: "{{ systemctl_version.stdout_lines[0][8:11] }}"
+
+# vim: set ts=2 sw=2:

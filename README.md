@@ -27,6 +27,17 @@ systemd_networkd_enable: yes
 
 # Enable systemd-resolved for DNS queries?
 systemd_networkd_enable_resolved: yes
+
+# File symlink /etc/resolv.conf should point to, possiblities:
+# - /run/systemd/resolve/stub-resolv.conf, the dynamic stub-resolver,
+#   which is the recommended mode of operation as of systemd 216.
+# - /usr/lib/systemd/resolv.conf, the static stub-resolver
+# - /run/systemd/resolve/resolv.conf, which points clients to
+#   (discovered/configured) DNS servers directly.
+# - a custom path of your choosing.
+#
+# The dynamic the stub resolver is used by default, unless your systemd version is < 216
+systemd_resolved_resolv_file: ...
 ```
 
 Dependencies
