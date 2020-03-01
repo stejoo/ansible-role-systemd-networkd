@@ -38,6 +38,13 @@ systemd_networkd_enable_resolved: yes
 #
 # The dynamic the stub resolver is used by default, unless your systemd version is < 216
 systemd_resolved_resolv_file: ...
+
+# Configure contents of /etc/systemd/resolved.conf.
+# Defaults turn DNSSEC off to prevent DNS resolver failure with a misbehaving
+# DNS server in the chain. Instead of systemd-resolved's default of
+# 'allow-downgrading'.
+systemd_resolved_config:
+  - DNSSEC: "no"
 ```
 
 Dependencies

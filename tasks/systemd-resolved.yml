@@ -1,5 +1,14 @@
 ---
 
+- name: Ensure resolved.conf configuration file
+  template:
+    src: resolved.conf.j2
+    dest: /etc/systemd/resolved.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: systemd_networkd_enable_resolved
+
 - name: Manage /etc/resolv.conf
   file:
     dest: /etc/resolv.conf
