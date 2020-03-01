@@ -1,0 +1,46 @@
+---
+
+- name: Ensure configuration directory
+  file:
+    path: /etc/systemd/network
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Ensure systemd.link file(s)
+  template:
+    src: systemd_networkd_profile.j2
+    dest: "/etc/systemd/network/{{ item.key }}.link"
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ systemd_networkd_link | dict2items }}"
+  notify: Restart systemd-networkd
+
+- name: Ensure systemd.netdev file(s)
+  template:
+    src: systemd_networkd_profile.j2
+    dest: "/etc/systemd/network/{{ item.key }}.netdev"
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ systemd_networkd_netdev | dict2items }}"
+  notify: Restart systemd-networkd
+
+- name: Ensure systemd.network file(s)
+  template:
+    src: systemd_networkd_profile.j2
+    dest: "/etc/systemd/network/{{ item.key }}.network"
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ systemd_networkd_network | dict2items }}"
+  notify: Restart systemd-networkd
+
+- name: Enable systemd-networkd service
+  service:
+    name: systemd-networkd
+    enabled: yes
+  when: systemd_networkd_network or systemd_networkd_link or systemd_networkd_netdev
+
+# vim: set ts=2 sw=2:

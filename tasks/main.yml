@@ -1,25 +1,6 @@
 ---
 
-- name: ensure systemd-networkd configuration directory
-  file:
-    path: /etc/systemd/network
-    owner: root
-    group: root
-    mode: 0755
-
-- import_tasks: profiles.yml
-
-- name: enable systemd-networkd
-  service:
-    name: systemd-networkd
-    enabled: yes
-  when: systemd_networkd_network or systemd_networkd_link or systemd_networkd_netdev
-
-- name: start and enable systemd-resolved
-  service:
-    name: systemd-resolved
-    enabled: yes
-    state: started
-  when: systemd_networkd_enable_resolved
+- import_tasks: systemd-networkd.yml
+- import_tasks: systemd-resolved.yml
 
 # vim: set ts=2 sw=2:
