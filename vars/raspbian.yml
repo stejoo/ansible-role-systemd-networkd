@@ -1,0 +1,15 @@
+---
+# vars for systemd-networkd role on a Debian (based) system
+
+can_disable_default_networking: yes
+
+default_networking_services:
+  - networking
+  - ifupdown-pre
+  - dhcpcd
+
+default_networking_files:
+  - src: /etc/network/interfaces
+    dest: /etc/network/interfaces.disabled
+
+# vim: set ts=2 sw=2:

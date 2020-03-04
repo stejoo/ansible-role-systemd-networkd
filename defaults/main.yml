@@ -35,4 +35,7 @@ systemd_resolved_resolv_file: "{{ '/run/systemd/resolve/stub-resolv.conf' if sys
 systemd_resolved_config:
   - DNSSEC: "no"
 
+# Attempt to disable default networking service(s) of your distribution?
+disable_default_networking: yes
+
 # vim: set ts=2 sw=2:

@@ -1,0 +1,24 @@
+---
+
+- name: Deactivate default networking service(s)
+  service:
+    name: "{{ item }}"
+    state: "{{ 'stopped' if systemd_networkd_apply_config else omit }}"
+    enabled: no
+  loop: "{{ default_networking_services }}"
+
+- name: Mask default networking service(s) (if possible)
+  systemd:
+    name: "{{ item }}"
+    masked: yes
+  loop: "{{ default_networking_services }}"
+  when: ansible_facts.service_mgr == 'systemd'
+
+- name: Move network configuration related files or directories (if any)
+  command:
+    cmd: "mv {{ item.src }} {{ item.dest }}"
+    removes: "{{ item.src }}"
+    creates: "{{ item.dest }}"
+  loop: "{{ default_networking_files }}"
+
+# vim: set ts=2 sw=2:

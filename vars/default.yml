@@ -1,0 +1,20 @@
+---
+# vars for systemd-networkd role for a unknown system
+
+# Set this to true to signify the role should attempt to disable the default
+# networking service(s) of this distribution.
+can_disable_default_networking: no
+
+# List of services to disable (and possibly mask)
+# default_networking_services:
+#   - networking
+#   - ifupdown-pre
+default_networking_services: []
+
+# List of files to move. Example:
+# default_networking_files:
+# - src: /etc/network/interfaces
+#   dest: /etc/network/interfaces.disabled
+default_networking_files: []
+
+# vim: set ts=2 sw=2:

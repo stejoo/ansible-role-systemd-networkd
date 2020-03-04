@@ -1,7 +1,26 @@
 ---
+- name: Read OS specific variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - '{{ ansible_facts.lsb.id | lower }}.yml'
+        - '{{ ansible_facts.distribution | lower }}-{{ ansible_facts.distribution_major_version }}.yml'
+        - '{{ ansible_facts.distribution | lower }}.yml'
+        - '{{ ansible_facts.os_family | lower }}.yml'
+        - default.yml
+      paths:
+        - 'vars'
 
-- import_tasks: get_systemd_version.yml
-- import_tasks: systemd-networkd.yml
-- import_tasks: systemd-resolved.yml
+- name: Replace default networking with systemd-networkd
+  block:
+    - import_tasks: deactivate_default_networking.yml
+      when: disable_default_networking and can_disable_default_networking
+    - import_tasks: get_systemd_version.yml
+    - import_tasks: systemd-networkd.yml
+    - import_tasks: systemd-resolved.yml
+  rescue:
+    - import_tasks: reactivate_default_networking.yml
+      when: disable_default_networking and can_disable_default_networking
 
 # vim: set ts=2 sw=2:

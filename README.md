@@ -45,6 +45,9 @@ systemd_resolved_resolv_file: ...
 # 'allow-downgrading'.
 systemd_resolved_config:
   - DNSSEC: "no"
+
+# Attempt to disable default networking service(s) of your distribution?
+disable_default_networking: yes
 ```
 
 Dependencies
