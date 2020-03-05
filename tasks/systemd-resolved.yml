@@ -9,6 +9,12 @@
     mode: 0644
   when: systemd_networkd_enable_resolved
 
+- name: Configure systemd-resolved service
+  service:
+    name: systemd-resolved
+    state: "{{ 'started' if systemd_networkd_enable_resolved else omit }}"
+    enabled: "{{ systemd_networkd_enable_resolved }}"
+
 - name: Manage /etc/resolv.conf
   file:
     dest: /etc/resolv.conf
@@ -16,11 +22,5 @@
     state: link
     force: yes
   when: systemd_networkd_enable_resolved
-
-- name: Configure systemd-resolved service
-  service:
-    name: systemd-resolved
-    state: "{{ 'started' if systemd_networkd_enable_resolved else omit }}"
-    enabled: "{{ systemd_networkd_enable_resolved }}"
 
 # vim: set ts=2 sw=2:
