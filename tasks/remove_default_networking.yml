@@ -1,0 +1,6 @@
+---
+
+- name: Removing default network service(s) related packages
+  package:
+    name: "{{ default_networking_packages }}"
+    state: absent

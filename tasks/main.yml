@@ -23,4 +23,7 @@
     - import_tasks: reactivate_default_networking.yml
       when: disable_default_networking and can_disable_default_networking
 
+- import_tasks: remove_default_networking.yml
+  when: remove_default_networking and can_disable_default_networking
+
 # vim: set ts=2 sw=2:

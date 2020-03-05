@@ -48,6 +48,9 @@ systemd_resolved_config:
 
 # Attempt to disable default networking service(s) of your distribution?
 disable_default_networking: yes
+
+# Allow the role to remove packages related to the default networking service(s)?
+remove_default_networking: no
 ```
 
 Dependencies

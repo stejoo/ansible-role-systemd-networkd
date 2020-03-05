@@ -4,11 +4,19 @@
 can_disable_default_networking: yes
 
 default_networking_services:
-  - networking
   - ifupdown-pre
+  - networking
 
 default_networking_files:
   - src: /etc/network/interfaces
     dest: /etc/network/interfaces.disabled
+
+# List of packages of the default networking services.
+# When remove_default_networking is true the role can use this list to remove
+# the packages responsible for the default networking services.
+default_networking_packages:
+  - ifupdown
+  - isc-dhcp-client
+  - isc-dhcp-common
 
 # vim: set ts=2 sw=2:

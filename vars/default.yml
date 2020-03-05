@@ -17,4 +17,9 @@ default_networking_services: []
 #   dest: /etc/network/interfaces.disabled
 default_networking_files: []
 
+# List of packages of the default networking services.
+# When remove_default_networking is true the role can use this list to remove
+# the packages responsible for the default networking services.
+default_networking_packages: []
+
 # vim: set ts=2 sw=2:
