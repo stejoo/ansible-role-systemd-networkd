@@ -6,3 +6,8 @@
     name: systemd-networkd
     state: restarted
   when: systemd_networkd_apply_config
+
+- name: Restart systemd-resolved
+  service:
+    name: systemd-resolved
+    state: restarted
