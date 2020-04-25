@@ -4,7 +4,7 @@
   vars:
     params:
       files:
-        - '{{ ansible_facts.lsb.id | lower }}.yml'
+        - '{{ (ansible_facts.lsb.id | lower + ".yml") if ansible_facts.lsb.id is defined else omit }}'
         - '{{ ansible_facts.distribution | lower }}-{{ ansible_facts.distribution_major_version }}.yml'
         - '{{ ansible_facts.distribution | lower }}.yml'
         - '{{ ansible_facts.os_family | lower }}.yml'
